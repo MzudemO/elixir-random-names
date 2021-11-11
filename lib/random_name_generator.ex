@@ -16,9 +16,9 @@ defmodule RandomNameGenerator do
   end
 
   defp read_lists() do
-    with {:ok, adjectives} <- File.read("priv/adjectives.txt"),
+    with {:ok, adjectives} <- File.read("lib/data/adjectives.txt"),
          adjectives <- String.split(adjectives),
-         {:ok, animals} <- File.read("priv/animals.txt"),
+         {:ok, animals} <- File.read("lib/data/animals.txt"),
          animals <- String.split(animals) do
       %{adjectives: adjectives, animals: animals}
     end
