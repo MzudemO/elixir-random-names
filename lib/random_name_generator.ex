@@ -5,23 +5,16 @@ defmodule RandomNameGenerator do
 
   def random_name(), do: random_name(2, 1, "_", :lowercase)
 
+  @spec random_name(integer(), integer(), binary(), atom()) :: binary()
   def random_name(num_adjectives, num_animals, separator, casing \\ :capitalize) do
-    %{adjectives: adjectives, animals: animals} = read_lists()
+    adjectives = Adjectives.adjectives()
+    animals = Animals.animals()
     random_adjectives = take_random(adjectives, num_adjectives, separator, casing)
     random_animals = take_random(animals, num_animals, separator, casing)
 
     [random_adjectives, random_animals]
     |> Enum.filter(fn v -> v != "" end)
     |> Enum.join(separator)
-  end
-
-  defp read_lists() do
-    with {:ok, adjectives} <- File.read("lib/data/adjectives.txt"),
-         adjectives <- String.split(adjectives),
-         {:ok, animals} <- File.read("lib/data/animals.txt"),
-         animals <- String.split(animals) do
-      %{adjectives: adjectives, animals: animals}
-    end
   end
 
   defp take_random(list, count, separator, casing) do
